@@ -237,7 +237,7 @@ class Main:
         plt.plot(x,y,label='Words')
         plt.plot(x,y,'o')
         if oname == 'Ascending':
-            plt.title('10 Fewer Words with {} Sorting Algorithm\nfrom {} MB with {} word counter sets'.format(self.sortingname,Filename,len(list(self.words.items()))))
+            plt.title('10 Fewest Words with {} Sorting Algorithm\nfrom {} MB with {} word counter sets'.format(self.sortingname,Filename,len(list(self.words.items()))))
         elif oname == 'Descending':
             plt.title('10 Most Common Words with {} Sorting Algorithm\nfrom {} MB with {} word counter sets'.format(self.sortingname,Filename,len(list(self.words.items()))))
         plt.xlabel('Words')
@@ -246,7 +246,7 @@ class Main:
         df = pd.DataFrame(self.TopWords.items(),columns=['Words','Counting'])#get data for histogram
         df.plot.bar(x='Words',y='Counting',rot=0)
         if oname == 'Ascending':
-            plt.title('10 Fewer Words with {} Sorting Algorithm\nfrom {} MB with {} word counter sets'.format(self.sortingname,Filename,len(list(self.words.items()))))
+            plt.title('10 Fewest Words with {} Sorting Algorithm\nfrom {} MB with {} word counter sets'.format(self.sortingname,Filename,len(list(self.words.items()))))
         elif oname == 'Descending':
             plt.title('10 Most Common Words with {} Sorting Algorithm\nfrom {} MB with {} word counter sets'.format(self.sortingname,Filename,len(list(self.words.items()))))
         plt.xlabel('Words')
@@ -346,7 +346,6 @@ class Main:
                 pg.time.wait(1000)
         if self.Book_KB >= self.OF_Num*1024:
             self.OF_CreateSizeFile(self.OF_Num)
-            self.Load_Ebook(str(self.OF_Num))
             success.DrawText()
             pg.display.flip()
             pg.time.wait(1000)
@@ -358,14 +357,12 @@ class Main:
 
             self.OF_CreateSizeFile(self.MF_Steps)
             self.NameList.append(str(self.MF_Steps))
-            #print(self.MF_Steps)
             self.MF_Steps += 1
 
         if self.Book_KB < self.MF_Steps*1024:
             if not B.Passed:
                 self.Book_KB += int(B.kb_text)
                 self.NameList.append(B.book)
-                #print(B.book)
                 B.Passed = True
                 B.Update()
             else:
@@ -375,7 +372,6 @@ class Main:
 
         if self.Book_KB >= self.MF_Num*1024:
             self.OF_CreateSizeFile(self.MF_Steps)
-            #self.FileDict[self.MF_Steps]=0
             success.DrawText()
             pg.display.flip()
             pg.time.wait(1000)
@@ -433,6 +429,7 @@ class Main:
                 Elapsed=self.Measure_Mergesort(value,self.OrderFlag)
                 self.FileDict[key]=Elapsed.microseconds
                 self.CompDict[key]=self.MQH_AvgComplexity(value)
+                print('Merge Sort Processing.... on File {} MB'.format(key))
 
             #Show output in terminal and plotting
             self.WriteandRead_CSV('Merge',self.EbookDict,self.FileDict,self.CompDict,loop,self.oname)
@@ -444,6 +441,7 @@ class Main:
                 Elapsed=self.Measure_Shellsort(value,self.OrderFlag)
                 self.FileDict[key]=Elapsed.microseconds
                 self.CompDict[key]=self.S_AvgComplexity(value)
+                print('Shell Sort Processing.... on File {} MB'.format(key))
 
             #Show output in terminal and plotting
             self.WriteandRead_CSV('Shell',self.EbookDict,self.FileDict,self.CompDict,loop,self.oname)
@@ -455,6 +453,7 @@ class Main:
                 Elapsed=self.Measure_Heapsort(value,self.OrderFlag)
                 self.FileDict[key]=Elapsed.microseconds
                 self.CompDict[key]=self.MQH_AvgComplexity(value)
+                print('Heap Sort Processing.... on File {} MB'.format(key))
 
             #Show output in terminal and plotting
             self.WriteandRead_CSV('Heap',self.EbookDict,self.FileDict,self.CompDict,loop,self.oname)
@@ -466,6 +465,7 @@ class Main:
                 Elapsed=self.Measure_Quicksort(value,0,len(value)-1,self.OrderFlag)
                 self.FileDict[key]=Elapsed.microseconds
                 self.CompDict[key]=self.MQH_AvgComplexity(value)
+                print('Quick Sort Processing.... on File {} MB'.format(key))
 
             #Show output in terminal and plotting
             self.WriteandRead_CSV('Quick',self.EbookDict,self.FileDict,self.CompDict,loop,self.oname)
@@ -476,18 +476,22 @@ class Main:
             for key,value in self.QuickEbook.items():
                 Elapsed=self.Measure_Quicksort(value,0,len(value)-1,self.OrderFlag)
                 self.QuickDict[key]=Elapsed.microseconds
+                print('Quick Sort Processing.... on File {} MB'.format(key))
 
             for key,value in self.MergeEbook.items():
                 Elapsed=self.Measure_Mergesort(value,self.OrderFlag)
                 self.MergeDict[key]=Elapsed.microseconds
+                print('Merge Sort Processing.... on File {} MB'.format(key))
 
             for key,value in self.ShellEbook.items():
                 Elapsed=self.Measure_Shellsort(value,self.OrderFlag)
                 self.ShellDict[key]=Elapsed.microseconds
+                print('Shell Sort Processing.... on File {} MB'.format(key))
 
             for key,value in self.HeapEbook.items():
                 Elapsed=self.Measure_Heapsort(value,self.OrderFlag)
                 self.HeapDict[key]=Elapsed.microseconds
+                print('Heap Sort Processing.... on File {} MB'.format(key))
 
             #Show output in terminal and plotting
             self.WriteandRead_CSV_NoComp('Merge',self.MergeEbook,self.MergeDict,loop,self.oname)
